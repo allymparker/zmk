@@ -48,6 +48,7 @@ int wpm_event_listener(const struct zmk_event_header *eh) {
 
 void wpm_work_handler(struct k_work *work) {
     wpm_state = (key_pressed_count / CHARS_PER_WORD) / (WPM_INTERVAL_SECONDS / 60.0);
+    key_pressed_count = 0;
     LOG_DBG("Work handler %d", wpm_state);
     ZMK_EVENT_RAISE(create_wpm_state_changed(wpm_state));
 }
