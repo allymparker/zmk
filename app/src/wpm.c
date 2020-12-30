@@ -18,7 +18,8 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
 #include <zmk/wpm.h>
 
-#define WPM_INTERVAL_SECONDS 5
+#define WPM_UPDATE_INTERVAL_SECONDS 1
+#define WPM_RESET_INTERVAL_SECONDS 5
 
 // See https://en.wikipedia.org/wiki/Words_per_minute
 // "Since the length or duration of words is clearly variable, for the purpose of measurement of
@@ -27,6 +28,7 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 #define CHARS_PER_WORD 5.0
 
 static uint8_t wpm_state;
+static uint8_t wpm_update_counter;
 static uint32_t key_pressed_count;
 
 int zmk_wpm_get_state() { return wpm_state; }
@@ -47,8 +49,15 @@ int wpm_event_listener(const struct zmk_event_header *eh) {
 }
 
 void wpm_work_handler(struct k_work *work) {
-    wpm_state = (key_pressed_count / CHARS_PER_WORD) / (WPM_INTERVAL_SECONDS / 60.0);
-    key_pressed_count = 0;
+    wpm_update_counter++;
+    wpm_state = (key_pressed_count / CHARS_PER_WORD) /
+                (wpm_update_counter * WPM_UPDATE_INTERVAL_SECONDS / 60.0);
+
+    if (wpm_update_counter == WPM_RESET_INTERVAL_SECONDS) {
+        wpm_update_counter = 0;
+        key_pressed_count = 0;
+    }
+
     LOG_DBG("Work handler %d", wpm_state);
     ZMK_EVENT_RAISE(create_wpm_state_changed(wpm_state));
 }
@@ -62,8 +71,9 @@ K_TIMER_DEFINE(wpm_timer, wpm_expiry_function, NULL);
 int wpm_init() {
     LOG_DBG("Init Wpm");
     wpm_state = 0;
-
-    k_timer_start(&wpm_timer, K_SECONDS(WPM_INTERVAL_SECONDS), K_SECONDS(WPM_INTERVAL_SECONDS));
+    wpm_update_counter = 0;
+    k_timer_start(&wpm_timer, K_SECONDS(WPM_UPDATE_INTERVAL_SECONDS),
+                  K_SECONDS(WPM_UPDATE_INTERVAL_SECONDS));
     return 0;
 }
 
