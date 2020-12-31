@@ -51,7 +51,7 @@ void wpm_work_handler(struct k_work *work) {
     wpm_state = (key_pressed_count / CHARS_PER_WORD) /
                 (wpm_update_counter * WPM_UPDATE_INTERVAL_SECONDS / 60.0);
 
-    if (wpm_update_counter == WPM_RESET_INTERVAL_SECONDS) {
+    if (wpm_update_counter >= WPM_RESET_INTERVAL_SECONDS) {
         wpm_update_counter = 0;
         key_pressed_count = 0;
     }
