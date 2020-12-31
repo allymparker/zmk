@@ -27,7 +27,8 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 // keystrokes long in English"
 #define CHARS_PER_WORD 5.0
 
-static uint8_t wpm_state;
+static uint8_t wpm_state = -1;
+static uint8_t last_wpm_state;
 static uint8_t wpm_update_counter;
 static uint32_t key_pressed_count;
 
@@ -55,8 +56,13 @@ void wpm_work_handler(struct k_work *work) {
         key_pressed_count = 0;
     }
 
-    LOG_DBG("Raised WPM state changed %d", wpm_state);
-    ZMK_EVENT_RAISE(create_wpm_state_changed(wpm_state));
+    if (last_wpm_state != wpm_state) {
+        LOG_DBG("Raised WPM state changed %d", wpm_state);
+        ZMK_EVENT_RAISE(create_wpm_state_changed(wpm_state));
+        last_wpm_state = wpm_state;
+    } else {
+        LOG_DBG("WPM state unchanged %d", wpm_state);
+    }
 }
 
 K_WORK_DEFINE(wpm_work, wpm_work_handler);
