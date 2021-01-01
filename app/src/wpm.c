@@ -40,7 +40,7 @@ int wpm_event_listener(const struct zmk_event_header *eh) {
         // count only key up events
         if (!ev->state) {
             key_pressed_count++;
-            LOG_DBG("%d key up - new count %d", ev->keycode, key_pressed_count);
+            LOG_DBG("key_pressed_count %d keycode %d", key_pressed_count, ev->keycode);
         }
     }
     return 0;
@@ -51,15 +51,16 @@ void wpm_work_handler(struct k_work *work) {
     wpm_state = (key_pressed_count / CHARS_PER_WORD) /
                 (wpm_update_counter * WPM_UPDATE_INTERVAL_SECONDS / 60.0);
 
+    if (last_wpm_state != wpm_state) {
+        LOG_DBG("Raised WPM state changed %d wpm_update_counter %d", wpm_state, wpm_update_counter,
+                wpm_update_counter);
+        ZMK_EVENT_RAISE(create_wpm_state_changed(wpm_state));
+        last_wpm_state = wpm_state;
+    }
+
     if (wpm_update_counter >= WPM_RESET_INTERVAL_SECONDS) {
         wpm_update_counter = 0;
         key_pressed_count = 0;
-    }
-
-    if (last_wpm_state != wpm_state) {
-        LOG_DBG("Raised WPM state changed %d", wpm_state);
-        ZMK_EVENT_RAISE(create_wpm_state_changed(wpm_state));
-        last_wpm_state = wpm_state;
     }
 }
 
