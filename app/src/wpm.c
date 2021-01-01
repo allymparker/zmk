@@ -60,8 +60,6 @@ void wpm_work_handler(struct k_work *work) {
         LOG_DBG("Raised WPM state changed %d", wpm_state);
         ZMK_EVENT_RAISE(create_wpm_state_changed(wpm_state));
         last_wpm_state = wpm_state;
-    } else {
-        LOG_DBG("WPM state unchanged %d", wpm_state);
     }
 }
 
