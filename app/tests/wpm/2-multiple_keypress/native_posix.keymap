@@ -10,6 +10,6 @@
 		// 2nd WPM worker call - 12wpm - 2 key press in 2 second
 		// note there is no event for this as WPM hasn't changed
 		// 3rd WPM worker call - 8wpm - 2 key press in 3 seconds
-		ZMK_MOCK_PRESS(0,0,6000) 
+		ZMK_MOCK_PRESS(0,0,2000) 
 	>;
 };
