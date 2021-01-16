@@ -28,5 +28,6 @@ config ZMK_WIDGET_WPM_STATUS
     depends on !ZMK_SPLIT || ZMK_SPLIT_BLE_ROLE_CENTRAL
     select LVGL_USE_LABEL
     select LVGL_FONT_MONTSERRAT_16
+    select ZMK_WPM
 
 endmenu
