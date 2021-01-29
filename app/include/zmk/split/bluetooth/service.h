@@ -8,3 +8,4 @@
 
 int zmk_split_bt_position_pressed(uint8_t position);
 int zmk_split_bt_position_released(uint8_t position);
+int zmk_split_bt_sensor_event(uint8_t position);
