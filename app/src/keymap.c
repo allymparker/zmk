@@ -116,7 +116,8 @@ bool zmk_keymap_layer_active(uint8_t layer) {
 };
 
 bool zmk_keymap_layer_momentary(uint8_t layer) {
-    return layer != _zmk_keymap_layer_default && (_zmk_keymap_layer_momentary & (BIT(layer))) == (BIT(layer));
+    return layer != _zmk_keymap_layer_default &&
+           (_zmk_keymap_layer_momentary & (BIT(layer))) == (BIT(layer));
 };
 
 bool zmk_keymap_layers_any_momentary(zmk_keymap_layers_state_t layers_mask) {
@@ -132,7 +133,9 @@ uint8_t zmk_keymap_highest_layer_active() {
     return zmk_keymap_layer_default();
 }
 
-int zmk_keymap_layer_activate(uint8_t layer, bool momentary) { return set_layer_state(layer, true, momentary); };
+int zmk_keymap_layer_activate(uint8_t layer, bool momentary) {
+    return set_layer_state(layer, true, momentary);
+};
 
 int zmk_keymap_layer_deactivate(uint8_t layer) { return set_layer_state(layer, false, false); };
 

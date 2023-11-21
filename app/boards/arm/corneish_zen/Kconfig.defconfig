@@ -72,22 +72,22 @@ menuconfig CUSTOM_WIDGET_PERIPHERAL_STATUS
     bool "custom peripheral status widget"
 
 config CUSTOM_WIDGET_LAYER_STATUS_HIDE_HEADING
-	bool "Hide heading strip for layer widget and center widgets on 1/3rds"
+    bool "Hide heading strip for layer widget and center widgets on 1/3rds"
 
 choice CUSTOM_WIDGET_LOGO_IMAGE
-	prompt "custom logo widget image"
+    prompt "custom logo widget image"
 
-	config CUSTOM_WIDGET_LOGO_IMAGE_ZEN
-		bool "Corne-ish Zen"
+    config CUSTOM_WIDGET_LOGO_IMAGE_ZEN
+        bool "Corne-ish Zen"
 
-	config CUSTOM_WIDGET_LOGO_IMAGE_LPKB
-		bool "LPKB"
+    config CUSTOM_WIDGET_LOGO_IMAGE_LPKB
+        bool "LPKB"
 
-	config CUSTOM_WIDGET_LOGO_IMAGE_ZMK
-		bool "ZMK"
+    config CUSTOM_WIDGET_LOGO_IMAGE_ZMK
+        bool "ZMK"
 
-	config CUSTOM_WIDGET_LOGO_IMAGE_MIRYOKU
-		bool "Miryoku"
+    config CUSTOM_WIDGET_LOGO_IMAGE_MIRYOKU
+        bool "Miryoku"
 
 endchoice
 
