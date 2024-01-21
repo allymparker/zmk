@@ -54,7 +54,6 @@ module.exports = {
       "codes/applications",
       "codes/input-assist",
       "codes/power",
-      "codes/keymap-upgrader",
     ],
     Configuration: [
       "config/index",
