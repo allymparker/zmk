@@ -74,7 +74,7 @@ static void draw_top(lv_obj_t *widget, lv_color_t cbuf[], const struct status_st
     case ZMK_TRANSPORT_BLE:
         if (state->active_profile_bonded) {
             if (state->active_profile_connected) {
-                strcat(output_text, LV_SYMBOL_WIFI);
+                strcat(output_text, LV_SYMBOL_BLUETOOTH);
             } else {
                 strcat(output_text, LV_SYMBOL_CLOSE);
             }
